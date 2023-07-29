@@ -16,6 +16,10 @@ const Funcionario = sequelize.define('Funcionario', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  nivel: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
 });
 
 // Antes de salvar o funcionário no banco de dados, vamos hashear a senha

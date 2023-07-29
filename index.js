@@ -13,6 +13,11 @@ async function inicio(){
 inicio()
 app.use(cors())
 app.use(express.json({ extended: false }))
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 app.use('/api/cadastro', cadastro)
 const Port = process.env.PORT ||8080;
