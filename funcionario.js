@@ -32,19 +32,40 @@ const RegistroPonto = sequelize.define('RegistroPonto', {
       type: DataTypes.TIME,
       allowNull: false,
     },
+    hora_saida_almoco: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
+    hora_entrada_almoco: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
     horaSaida: {
       type: DataTypes.TIME,
       allowNull: true,
     },
 });
+const BancoHoras = sequelize.define('BancoHoras', {
+  banco: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  }
+})
 RegistroPonto.belongsTo(Funcionario, {
     foreignKey: {
       allowNull: false,
     },
-  });
-
-  Funcionario.hasMany(RegistroPonto, {
+});
+BancoHoras.belongsTo(Funcionario, {
+  foreignKey: {
+    allowNull: false,
+  },
+});
+Funcionario.hasMany(RegistroPonto, {
     onDelete: 'CASCADE',
+});
+Funcionario.hasMany(BancoHoras, {
+  onDelete: 'CASCADE',
 });
 
 module.exports = Funcionario;
