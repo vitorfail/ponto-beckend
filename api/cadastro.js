@@ -29,7 +29,12 @@ async function cadastro( user, email, senha, nivel){
         }
 }
 rota.post('/', async (req, res) => {
+  try{
     var result = await cadastro(req.body.user, req.body.email, req.body.senha, req.body.nivel)
     res.status(200).send({result:result})
+  }
+  catch(error){
+    res.status(500).send({result:error})
+  }
 });
 module.exports = rota;

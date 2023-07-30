@@ -31,8 +31,13 @@ async function login_admin( id, senha){
         }
 }
 rota.post('/', async (req, res) => {
-    var result = await login_admin(req.body.id, req.body.senha)
-    console.log(result)
-    res.status(200).send({result:result})
+    try{
+      var result = await login_admin(req.body.id, req.body.senha)
+      res.status(200).send({result:result})  
+    }
+    catch(error){
+      res.status(500).send({result:error})
+    }
+  
 });
 module.exports = rota;
