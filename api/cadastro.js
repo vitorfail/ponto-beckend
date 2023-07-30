@@ -2,6 +2,11 @@ const Funcionario = require('../funcionario');
 const express = require("express")
 const rota = express.Router()
 
+/**
+ * GET product list.
+ *
+ * @return product list | empty.
+ */
 // Exemplo de criação de um funcionário
 async function cadastro( user, email, senha, nivel){
         try {

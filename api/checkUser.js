@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken")
 export default function check(header){
     var h = header.headers.authorization.replace('Bearer ', '')
     var result = false

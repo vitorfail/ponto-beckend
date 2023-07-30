@@ -5,6 +5,11 @@ const rota = express.Router()
 const jwt = require("jsonwebtoken")
 require('dotenv').config(); 
 
+/**
+ * GET product list.
+ *
+ * @return product list | empty.
+ */
 // Exemplo de criação de um funcionário
 async function login_admin( id, senha){
         try {
