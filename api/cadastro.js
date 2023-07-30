@@ -3,17 +3,28 @@ const express = require("express")
 const rota = express.Router()
 
 // Exemplo de criação de um funcionário
-async function cadastro( nome, email, senha){
+async function cadastro( user, email, senha, nivel){
         try {
-          const funcionario = await Funcionario.create({ nome, email, senha });
-          return 1
+          const pesquisa = await Funcionario.findAll({
+            where:{
+              user:(user)
+            }
+          });
+          if(pesquisa.length>0){
+            return "JA_EXISTE"
+          }
+          else{
+            const funcionario = await Funcionario.create({ user, email, senha, nivel });
+            return {status:"ok", id:funcionario.id}  
+          }
         } 
         catch (error) {
-          return 0 
+          console.log(error)
+          return {status:"error"}
         }
 }
 rota.post('/', async (req, res) => {
-    var result = await cadastro(req.body.nome, req.body.email, req.body.senha)
-    res.status(200).send(result)
+    var result = await cadastro(req.body.user, req.body.email, req.body.senha, req.body.nivel)
+    res.status(200).send({result:result})
 });
 module.exports = rota;

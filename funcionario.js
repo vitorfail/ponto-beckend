@@ -1,30 +1,30 @@
 const { DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
+const md5 =require("md5")
 const sequelize = require('./database'); // importe a instância do Sequelize que criaremos posteriormente
 
 const Funcionario = sequelize.define('Funcionario', {
-  nome: {
+  user: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique:true
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
+    allowNull: true,
   },
   senha: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   nivel: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
 // Antes de salvar o funcionário no banco de dados, vamos hashear a senha
 Funcionario.beforeCreate(async (funcionario) => {
-  const hash = await bcrypt.hash(funcionario.senha, 10);
+  const hash = await md5(funcionario.senha);
   funcionario.senha = hash;
 });
 const RegistroPonto = sequelize.define('RegistroPonto', {

@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const cadastro = require("./api/cadastro")
+const login_admin = require("./api/login_admin")
 
 var cors = require('cors')
 
@@ -17,8 +18,9 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 app.use('/api/cadastro', cadastro)
+app.use("/api/login_admin", login_admin)
 const Port = process.env.PORT ||8080;
 app.listen(Port, () => console.log("Servidor rodando na porta "+Port))
