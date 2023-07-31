@@ -8,8 +8,8 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "dev":"nodemon src/index.js",
-    "build":"mkdir dist"
+    "dev": "nodemon src/index.js",
+    "build": "mkdir dist"
   },
   "author": "vitor",
   "license": "ISC",

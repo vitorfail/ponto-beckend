@@ -4,7 +4,7 @@ require("dotenv").config()
 if(process.env.URL == ""){
     const sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
         host: process.env.HOST,
-        dialect: process.env.TYPE,
+        dialectModule: require('pg'),
       });
     module.exports = sequelize;
 }
