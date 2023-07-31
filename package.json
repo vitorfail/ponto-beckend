@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev":"nodemon src/index.js",
-    "build":"mkdir dist && babel src -s -d dist"
+    "build":"mkdir dist"
   },
   "author": "vitor",
   "license": "ISC",
