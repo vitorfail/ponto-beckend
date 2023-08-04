@@ -13,4 +13,8 @@ const Empresas = sequelize.define("Empresas", {
     allowNull: false,
   }
 })
+Empresas.beforeCreate(async (empresa) => {
+  const hash = await md5(empresa.senha);
+  empresa.senha = hash;
+});
 module.exports = Empresas

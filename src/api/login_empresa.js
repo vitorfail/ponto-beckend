@@ -1,5 +1,5 @@
 const md5 = require('md5');
-const Funcionario = require('../funcionario');
+const Empresa = require('../empresas');
 const express = require("express")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
@@ -11,28 +11,32 @@ require('dotenv').config();
  * @return product list | empty.
  */
 // Exemplo de criação de um funcionário
-async function login_admin( id, senha){
+async function login_empresas( user, senha){
         try {
-          const funcionario = await Funcionario.findAll({
+          const empresateste = await Empresa.findAll({
             where:{
-              nivel:1,
-              id:(id),
+              id:1
+            }
+          })
+          const empresa = await Empresa.findAll({
+            where:{
+              user:user,
               senha:md5(senha)
             }
           });
-          if(funcionario.length >0 && funcionario[0].dataValues.nivel == 1){
-            var token = jwt.sign({payload:{id:funcionario[0].dataValues.id}}, process.env.PRIVATE_KEY, {expiresIn:process.env.TIME})
+          if(empresa.length >0){
+            var token = jwt.sign({payload:{id:empresa[0].dataValues.id}}, process.env.PRIVATE_KEY)
             return {status:"ok", token:token}
           }
         } 
         catch (error) {
+          console.log(error)
           return {status:"error"}
         }
 }
 rota.post('/', async (req, res) => {
     try{
-      console.log(req.body)
-      var result = await login_admin(req.body.id, req.body.senha)
+      var result = await login_empresas(req.body.user, req.body.senha)
       res.status(200).send({result:result})  
     }
     catch(error){

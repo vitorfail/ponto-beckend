@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const md5 =require("md5")
 const sequelize = require('./database'); // importe a instância do Sequelize que criaremos posteriormente
+const RegistroPonto = require('./registro')
 
 const Funcionario = sequelize.define('Funcionario', {
   id_empresa:{
@@ -37,19 +38,19 @@ const RegistroPonto = sequelize.define('RegistroPonto', {
       allowNull: false
     },
     dataRegistro: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     horaEntrada: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     hora_saida_almoco: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     hora_entrada_almoco: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     horaSaida: {
@@ -67,16 +68,7 @@ const BancoHoras = sequelize.define('BancoHoras', {
     allowNull: true,
   }
 })
-RegistroPonto.belongsTo(Funcionario, {
-    foreignKey: {
-      allowNull: false,
-    },
-});
-BancoHoras.belongsTo(Funcionario, {
-  foreignKey: {
-    allowNull: false,
-  },
-});
+
 Funcionario.hasMany(RegistroPonto, {
     onDelete: 'CASCADE',
 });

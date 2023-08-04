@@ -1,7 +1,10 @@
 const Funcionario = require('../funcionario');
+const RegistroPonto = require('../registro');
+
 const express = require("express");
-const { default: check } = require('./checkUser');
+const check = require('./checkUser');
 const rota = express.Router()
+const jwt = require("jsonwebtoken")
 
 /**
  * GET product list.
@@ -21,7 +24,8 @@ async function cadastro(id_empresa, user, email, senha, nivel){
             return "JA_EXISTE"
           }
           else{
-            const funcionario = await Funcionario.create({id_empresa, user, email, senha, nivel });
+            const funcionario = await Funcionario.create({id_empresa, user, });
+            const pont = await RegistroPonto.create({})
             return {status:"ok", id:funcionario.id}  
           }
         } 
@@ -33,7 +37,9 @@ async function cadastro(id_empresa, user, email, senha, nivel){
 rota.post('/', async (req, res) => {
   try{
     if(check(req)){
-      var result = await cadastro(req.body.id_empresa, req.body.user, req.body.email, req.body.senha, req.body.nivel)
+      var h = req.headers.authorization.replace('Bearer ', '')
+      var decode = jwt.decode(h)
+      var result = await cadastro(decode.payload.id, req.body.user, req.body.email, req.body.senha, req.body.nivel)
       res.status(200).send({result:result})
     }
     else{
@@ -41,6 +47,7 @@ rota.post('/', async (req, res) => {
     }
   }
   catch(error){
+    console.log(error)
     res.status(500).send({result:error})
   }
 });
