@@ -3,6 +3,10 @@ const md5 =require("md5")
 const sequelize = require('./database'); // importe a instância do Sequelize que criaremos posteriormente
 
 const Funcionario = sequelize.define('Funcionario', {
+  id_empresa:{
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   user: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -28,6 +32,10 @@ Funcionario.beforeCreate(async (funcionario) => {
   funcionario.senha = hash;
 });
 const RegistroPonto = sequelize.define('RegistroPonto', {
+    id_empresa:{
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     dataRegistro: {
       type: DataTypes.DATEONLY,
       allowNull: false,
@@ -50,6 +58,10 @@ const RegistroPonto = sequelize.define('RegistroPonto', {
     },
 });
 const BancoHoras = sequelize.define('BancoHoras', {
+  id_empresa:{
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   banco: {
     type: DataTypes.INTEGER,
     allowNull: true,

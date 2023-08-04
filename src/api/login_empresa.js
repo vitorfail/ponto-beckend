@@ -21,7 +21,7 @@ async function login_admin( id, senha){
             }
           });
           if(funcionario.length >0 && funcionario[0].dataValues.nivel == 1){
-            var token = jwt.sign({payload: { id_f:funcionario[0].dataValues.id, id_empresa: funcionario[0].dataValues.id_empresa}}, process.env.PRIVATE_KEY)
+            var token = jwt.sign({payload:{id:funcionario[0].dataValues.id}}, process.env.PRIVATE_KEY, {expiresIn:process.env.TIME})
             return {status:"ok", token:token}
           }
         } 

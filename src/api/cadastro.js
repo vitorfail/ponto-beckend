@@ -1,5 +1,6 @@
 const Funcionario = require('../funcionario');
-const express = require("express")
+const express = require("express");
+const { default: check } = require('./checkUser');
 const rota = express.Router()
 
 /**
@@ -8,18 +9,19 @@ const rota = express.Router()
  * @return product list | empty.
  */
 // Exemplo de criação de um funcionário
-async function cadastro( user, email, senha, nivel){
+async function cadastro(id_empresa, user, email, senha, nivel){
         try {
           const pesquisa = await Funcionario.findAll({
             where:{
-              user:(user)
+              id_empresa:id_empresa,
+              user:user
             }
           });
           if(pesquisa.length>0){
             return "JA_EXISTE"
           }
           else{
-            const funcionario = await Funcionario.create({ user, email, senha, nivel });
+            const funcionario = await Funcionario.create({id_empresa, user, email, senha, nivel });
             return {status:"ok", id:funcionario.id}  
           }
         } 
@@ -30,8 +32,13 @@ async function cadastro( user, email, senha, nivel){
 }
 rota.post('/', async (req, res) => {
   try{
-    var result = await cadastro(req.body.user, req.body.email, req.body.senha, req.body.nivel)
-    res.status(200).send({result:result})
+    if(check(req)){
+      var result = await cadastro(req.body.id_empresa, req.body.user, req.body.email, req.body.senha, req.body.nivel)
+      res.status(200).send({result:result})
+    }
+    else{
+      res.status(200).send({result:"NOT USER"})
+    }
   }
   catch(error){
     res.status(500).send({result:error})

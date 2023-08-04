@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const cadastro = require("./api/cadastro")
+const cadastro_empresa = require("./api/cadastro_empresa")
 const login_admin = require("./api/login_admin")
 
 var cors = require('cors')
@@ -8,6 +9,7 @@ var cors = require('cors')
 async function inicio(){
     const database = require('./database.js');
     const tabelas = require('./funcionario.js');
+    const empresas = require('./empresas.js');
     await database.sync();
     console.log("conectado ao banco de dados")   
 }
@@ -22,5 +24,6 @@ app.use(function(req, res, next) {
 
 app.use('/api/cadastro', cadastro)
 app.use("/api/login_admin", login_admin)
+app.use("/api/cadastro_empresa", cadastro_empresa)
 const Port = process.env.PORT ||8080;
 app.listen(Port, () => console.log("Servidor rodando na porta "+Port))

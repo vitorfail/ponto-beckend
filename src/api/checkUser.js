@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken")
-export default function check(header){
+function check(header){
     var h = header.headers.authorization.replace('Bearer ', '')
     var result = false
-    jwt.verify(h, process.env.PRIVATE_KEY, function(err, decoded) {
-        if (err){
+    jwt.verify(h, process.env.PRIVATE_KEY, function(err, decoded){
+        if(err){
             
         }
         else{
@@ -12,3 +12,4 @@ export default function check(header){
     })
     return result    
 }
+module.exports = check
