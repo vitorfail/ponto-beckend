@@ -32,32 +32,7 @@ Funcionario.beforeCreate(async (funcionario) => {
   const hash = await md5(funcionario.senha);
   funcionario.senha = hash;
 });
-const RegistroPonto = sequelize.define('RegistroPonto', {
-    id_empresa:{
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    dataRegistro: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    horaEntrada: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    hora_saida_almoco: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    hora_entrada_almoco: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    horaSaida: {
-      type: DataTypes.TIME,
-      allowNull: true,
-    },
-});
+
 const BancoHoras = sequelize.define('BancoHoras', {
   id_empresa:{
     type: DataTypes.INTEGER,
@@ -68,7 +43,6 @@ const BancoHoras = sequelize.define('BancoHoras', {
     allowNull: true,
   }
 })
-
 Funcionario.hasMany(RegistroPonto, {
     onDelete: 'CASCADE',
 });

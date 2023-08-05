@@ -7,30 +7,34 @@ const RegistroPonto = sequelize.define('RegistroPonto', {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    id_funcioario:{
+    id_funcionario:{
       type: DataTypes.INTEGER,
       allowNull: false
     },
     dataRegistro: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     horaEntrada: {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     hora_saida_almoco: {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     hora_entrada_almoco: {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     horaSaida: {
       type: DataTypes.TIME,
       allowNull: true,
     },
+    bancoHoras:{
+      type: DataTypes.TIME,
+      allowNull: true,
+    }
 });
 const BancoHoras = sequelize.define('BancoHoras', {
   id_empresa:{

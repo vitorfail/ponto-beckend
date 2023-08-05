@@ -24,9 +24,9 @@ async function cadastro(id_empresa, user, email, senha, nivel){
             return "JA_EXISTE"
           }
           else{
-            const funcionario = await Funcionario.create({id_empresa, user, });
-            const pont = await RegistroPonto.create({})
-            return {status:"ok", id:funcionario.id}  
+            const funcionario = await Funcionario.create({id_empresa:id_empresa, user:user, email:email, senha:senha, nivel:nivel });
+            var id = funcionario.id
+            return {status:"ok", id:id}  
           }
         } 
         catch (error) {

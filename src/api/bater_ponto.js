@@ -1,38 +1,45 @@
 const express = require("express");
-const { default: check } = require('./checkUser');
+const check = require('./checkUser');
 const RegistroPonto = require("../registro")
 const rota = express.Router()
-
+const jwt = require("jsonwebtoken")
 /**
  * GET product list.
  *
  * @return product list | empty.
  */
 // Exemplo de criação de um funcionário
-async function bater(id_empresa, id){
+async function bater(id_empresa, id_funcionario){
         try {
           var data = new Date()
+          var dataformatada = data.getFullYear()+"-"+(data.getMonth+1)+"-"+data.getDate()
+
           const pesquisa = await RegistroPonto.findAll({
             where:{
               id_empresa:(id_empresa),
-              id:(id),
-              dataRegistro:(data)
+              id_funcionario:(id_funcionario),
+              dataRegistro:(dataformatada)
             }
           });
           if(pesquisa.length>0){
             var data_hoje = new Date()
-            console.log(Object.keys(pesquisa[0]))
-            //if(pesquisa[0].horaEntrada == null){
-            //  const ponto = await RegistroPonto.update(
-             //   {where:{id:pesquisa[0].id}},
-             //   {horaEntrada:data_hoje}
-             // )
+            var variaveis = Object.keys(pesquisa[0].dataValues)
+            for(var i = 5;i<8;i++){
+              var v = pesquisa[0].dataValues[variaveis[i]]
+              if(v == null){
+               // const ponto = await RegistroPonto.define(
+                //  {where:{id:pesquisa[0].dataValues.id}},
+                //  {variaveis[i]:data_hoje}
+              //  )
+
+              }
+            }
              // return {status:"ok", id:funcionario.id}  
            // }
           }
           else{
-            const funcionario = await RegistroPonto.create({id_empresa, user, email, senha, nivel });
-            return {status:"ok", id:funcionario.id}  
+            //const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: dataformatada, horaEntrada:data.toLocaleTimeString()});
+            //return {status:"ok", id:funcionario.id}  
           }
         } 
         catch (error) {
@@ -41,11 +48,12 @@ async function bater(id_empresa, id){
         }
 }
 rota.post('/', async (req, res) => {
+  
   try{
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      var result = await bater(decode.payload.id, req.body.id)
+      var result = await bater(decode.payload.id, req.body.cod)
       res.status(200).send({result:result})
     }
     else{
@@ -53,6 +61,7 @@ rota.post('/', async (req, res) => {
     }
   }
   catch(error){
+    console.log(error)
     res.status(500).send({result:error})
   }
 });

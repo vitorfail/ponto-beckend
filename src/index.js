@@ -4,9 +4,10 @@ const cadastro = require("./api/cadastro")
 const cadastro_empresa = require("./api/cadastro_empresa")
 const login_admin = require("./api/login_admin")
 const login_empresa = require("./api/login_empresa")
+const ponto = require("./api/bater_ponto")
+
 
 var cors = require('cors')
-
 async function inicio(){
     const database = require('./database.js');
     const tabelas = require('./funcionario.js');
@@ -25,7 +26,7 @@ app.use(function(req, res, next) {
 
 app.use('/api/cadastro', cadastro)
 app.use('/api/login_empresa', login_empresa)
-
+app.use('/api/ponto', ponto)
 app.use("/api/login_admin", login_admin)
 app.use("/api/cadastro_empresa", cadastro_empresa)
 const Port = process.env.PORT ||8080;
