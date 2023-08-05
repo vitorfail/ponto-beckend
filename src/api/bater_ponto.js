@@ -3,6 +3,7 @@ const check = require('./checkUser');
 const RegistroPonto = require("../registro")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
+const sequelize = require("sequelize")
 /**
  * GET product list.
  *
@@ -12,8 +13,8 @@ const jwt = require("jsonwebtoken")
 async function bater(id_empresa, id_funcionario){
         try {
           var data = new Date()
-          var dataformatada = data.getFullYear()+"-"+(data.getMonth+1)+"-"+data.getDate()
-
+          var dataformatada = data.getFullYear()+"-"+(data.getMonth+1)+"-"+data.getDay()
+          console.log(dataformatada)
           const pesquisa = await RegistroPonto.findAll({
             where:{
               id_empresa:(id_empresa),
@@ -22,24 +23,27 @@ async function bater(id_empresa, id_funcionario){
             }
           });
           if(pesquisa.length>0){
+            console.log("passou por aqui")
             var data_hoje = new Date()
             var variaveis = Object.keys(pesquisa[0].dataValues)
             for(var i = 5;i<8;i++){
               var v = pesquisa[0].dataValues[variaveis[i]]
               if(v == null){
-               // const ponto = await RegistroPonto.define(
-                //  {where:{id:pesquisa[0].dataValues.id}},
-                //  {variaveis[i]:data_hoje}
-              //  )
-
+                var nome = variaveis[i] 
+                var json_atulizar_banco = {}
+                json_atulizar_banco[nome] = data_hoje.toISOString() 
+                const ponto = await RegistroPonto.define(
+                  {where:{id:pesquisa[0].dataValues.id}},
+                  json_atulizar_banco
+                )
+                i= 9
               }
             }
-             // return {status:"ok", id:funcionario.id}  
-           // }
+            return {status:"ok"}  
           }
           else{
-            //const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: dataformatada, horaEntrada:data.toLocaleTimeString()});
-            //return {status:"ok", id:funcionario.id}  
+            const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString(), horaEntrada:data.toISOString()});
+            return {status:"ok"}  
           }
         } 
         catch (error) {

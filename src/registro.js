@@ -16,23 +16,23 @@ const RegistroPonto = sequelize.define('RegistroPonto', {
       allowNull: false,
     },
     horaEntrada: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     hora_saida_almoco: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     hora_entrada_almoco: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     horaSaida: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     bancoHoras:{
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
     }
 });

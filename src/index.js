@@ -6,6 +6,8 @@ const login_admin = require("./api/login_admin")
 const login_empresa = require("./api/login_empresa")
 const ponto = require("./api/bater_ponto")
 
+var data = new Date()
+console.log(data.toLocaleTimeString())
 
 var cors = require('cors')
 async function inicio(){
