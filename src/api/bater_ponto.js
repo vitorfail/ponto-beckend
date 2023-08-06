@@ -41,8 +41,6 @@ async function bater(id_empresa, id_funcionario){
               }
               else{
                 if(i == 7){
-                  console.log("passou por aqui")
-
                   return {status:"ok", ponto:"JA_SAIU"}    
                 }
               }
