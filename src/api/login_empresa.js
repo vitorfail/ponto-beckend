@@ -13,11 +13,7 @@ require('dotenv').config();
 // Exemplo de criação de um funcionário
 async function login_empresas( user, senha){
         try {
-          const empresateste = await Empresa.findAll({
-            where:{
-              id:1
-            }
-          })
+
           const empresa = await Empresa.findAll({
             where:{
               user:user,
@@ -27,6 +23,9 @@ async function login_empresas( user, senha){
           if(empresa.length >0){
             var token = jwt.sign({payload:{id:empresa[0].dataValues.id}}, process.env.PRIVATE_KEY)
             return {status:"ok", token:token}
+          }
+          else{
+            return {status:"ok", er:"SENHA"}
           }
         } 
         catch (error) {

@@ -31,6 +31,9 @@ async function login_admin( user, senha, cod){
             var token = jwt.sign({payload: { id_f:funcionario[0].dataValues.id, id_empresa: funcionario[0].dataValues.id_empresa}}, process.env.PRIVATE_KEY)
             return {status:"ok", token:token}
           }
+          else{
+            return {status:"ok", er:"SENHA"}
+          }
         } 
         catch (error) {
           return {status:"error"}
