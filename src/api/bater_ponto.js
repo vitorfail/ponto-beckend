@@ -13,36 +13,44 @@ const sequelize = require("sequelize")
 async function bater(id_empresa, id_funcionario){
         try {
           var data = new Date()
-          var dataformatada = data.getFullYear()+"-"+(data.getMonth+1)+"-"+data.getDay()
-          console.log(dataformatada)
           const pesquisa = await RegistroPonto.findAll({
             where:{
               id_empresa:(id_empresa),
               id_funcionario:(id_funcionario),
-              dataRegistro:(dataformatada)
+              dataRegistro:(data.toISOString().slice(0, 10))
             }
           });
           if(pesquisa.length>0){
-            console.log("passou por aqui")
             var data_hoje = new Date()
             var variaveis = Object.keys(pesquisa[0].dataValues)
             for(var i = 5;i<8;i++){
               var v = pesquisa[0].dataValues[variaveis[i]]
+              var id = pesquisa[0].dataValues.id
               if(v == null){
                 var nome = variaveis[i] 
                 var json_atulizar_banco = {}
                 json_atulizar_banco[nome] = data_hoje.toISOString() 
-                const ponto = await RegistroPonto.define(
-                  {where:{id:pesquisa[0].dataValues.id}},
-                  json_atulizar_banco
+                const ponto = await RegistroPonto.update(
+                  json_atulizar_banco,
+                  {where:{id:id}},
                 )
+                if(i == 7){
+                  return {status:"ok", ponto:"saida"}  
+                }
                 i= 9
+              }
+              else{
+                if(i == 7){
+                  console.log("passou por aqui")
+
+                  return {status:"ok", ponto:"JA_SAIU"}    
+                }
               }
             }
             return {status:"ok"}  
           }
           else{
-            const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString(), horaEntrada:data.toISOString()});
+            const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString().slice(0, 10), horaEntrada:data.toISOString()});
             return {status:"ok"}  
           }
         } 
