@@ -5,6 +5,7 @@ const cadastro_empresa = require("./api/cadastro_empresa")
 const login_admin = require("./api/login_admin")
 const login_empresa = require("./api/login_empresa")
 const ponto = require("./api/bater_ponto")
+const home = require("./api/home")
 
 var data = new Date()
 console.log(data.toLocaleTimeString())
@@ -26,6 +27,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use('/api/home', home)
 app.use('/api/cadastro', cadastro)
 app.use('/api/login_empresa', login_empresa)
 app.use('/api/ponto', ponto)
