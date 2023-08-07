@@ -1,6 +1,7 @@
 const express = require("express");
 const check = require('./checkUser');
 const RegistroPonto = require("../registro")
+const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
 const sequelize = require("sequelize")
@@ -30,9 +31,16 @@ async function bater(id_empresa, id_funcionario){
                 var nome = variaveis[i] 
                 var json_atulizar_banco = {}
                 json_atulizar_banco[nome] = data_hoje.toISOString() 
-                const ponto = await RegistroPonto.update(
+                await RegistroPonto.update(
                   json_atulizar_banco,
                   {where:{id:id}},
+                )
+                await Funcionario.update(
+                  {status:(nome)},
+                  {where:{
+                    id_empresa:id_empresa,
+                    id:id_funcionario
+                  }}
                 )
                 if(i == 7){
                   return {status:"ok", ponto:"saida"}  

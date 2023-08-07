@@ -25,6 +25,10 @@ const Funcionario = sequelize.define('Funcionario', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  status:{
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   nivel: {
     type: DataTypes.INTEGER,
     allowNull: false,

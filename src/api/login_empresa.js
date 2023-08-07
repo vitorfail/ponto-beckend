@@ -35,6 +35,7 @@ async function login_empresas( user, senha){
 }
 rota.post('/', async (req, res) => {
     try{
+      console.log(req.body)
       var result = await login_empresas(req.body.user, req.body.senha)
       res.status(200).send({result:result})  
     }
