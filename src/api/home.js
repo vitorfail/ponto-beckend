@@ -10,7 +10,7 @@ const sequelize = require("sequelize")
  * @return product list | empty.
  */
 // Exemplo de criação de um funcionário
-async function home(id_empresa, id_funcionario){
+async function home(id_empresa){
         try {
           const total = await Funcionario.count({
             where:{
@@ -32,10 +32,9 @@ async function home(id_empresa, id_funcionario){
               status:"hora_saida_almoco"
             }
           })
-          return {total: total,trabalhando:trabalhando, almoco:almoco}
+          return {status:"ok", total: total,trabalhando:trabalhando, almoco:almoco}
         } 
         catch (error) {
-          console.log(error)
           return {status:"error"}
         }
 }
@@ -44,7 +43,7 @@ rota.post('/', async (req, res) => {
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      var result = await home(decode.payload.id, req.body.cod)
+      var result = await home(decode.payload.id)
       res.status(200).send({result:result})
     }
     else{
