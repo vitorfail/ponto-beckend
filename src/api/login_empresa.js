@@ -1,5 +1,6 @@
 const md5 = require('md5');
 const Empresa = require('../empresas');
+const Funcionario = require('../funcionario');
 const express = require("express")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
@@ -21,8 +22,14 @@ async function login_empresas( user, senha){
             }
           });
           if(empresa.length >0){
+            const empresa = await Empresa.findAll({
+              where:{
+                id_empresa:empresa[0].dataValues.id
+              },
+              attributes:["user", "face"]
+            })
             var token = jwt.sign({payload:{id:empresa[0].dataValues.id}}, process.env.PRIVATE_KEY)
-            return {status:"ok", token:token}
+            return {status:"ok", token:token, funcionarios:empresa}
           }
           else{
             return {status:"ok", er:"SENHA"}
