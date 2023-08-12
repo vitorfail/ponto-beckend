@@ -22,14 +22,14 @@ async function login_empresas( user, senha){
             }
           });
           if(empresa.length >0){
-            const empresa = await Empresa.findAll({
+            const func = await Funcionario.findAll({
               where:{
                 id_empresa:empresa[0].dataValues.id
               },
-              attributes:["user", "face"]
+              attributes:["id" ,"user", "face"]
             })
             var token = jwt.sign({payload:{id:empresa[0].dataValues.id}}, process.env.PRIVATE_KEY)
-            return {status:"ok", token:token, funcionarios:empresa}
+            return {status:"ok", token:token, funcionarios:func}
           }
           else{
             return {status:"ok", er:"SENHA"}
