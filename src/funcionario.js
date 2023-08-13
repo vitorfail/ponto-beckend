@@ -22,7 +22,7 @@ const Funcionario = sequelize.define('Funcionario', {
     allowNull: false,
   },
   face:{
-    type: DataTypes.STRING,
+    type: DataTypes.BLOB,
     allowNull: true,
   },
   status:{
