@@ -3,7 +3,9 @@ const check = require('./checkUser');
 const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
-const sequelize = require("sequelize")
+
+require('dotenv').config(); 
+
 /**
  * GET product list.
  *
@@ -12,14 +14,17 @@ const sequelize = require("sequelize")
 // Exemplo de criação de um funcionário
 async function rosto(id_empresa, id_funcionario, face){
         try {
-          await Funcionario.update({
+          const funcionario = await Funcionario.findOne({
             where:{
               id_empresa:(id_empresa),
               id:(id_funcionario),
-              face:(face)
             }
-          });
-          return {status:"ok"}  
+          })
+          if(funcionario){
+            funcionario.face = face
+            await funcionario.save();
+            return {status:"ok"}  
+          }
         } 
         catch (error) {
           return {status:"error"}
@@ -31,7 +36,8 @@ rota.post('/', async (req, res) => {
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      var result = await rosto(decode.payload.id, req.body.cod, req.body.face)
+    
+      var result = await rosto(decode.payload.id, req.body.id, req.body.face)
       res.status(200).send({result:result})
     }
     else{
