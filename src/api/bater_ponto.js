@@ -62,7 +62,7 @@ async function bater(id_empresa, id_funcionario){
         } 
         catch (error) {
           console.log(error)
-          return {status:"error"}
+          return {status:"error", er:error}
         }
 }
 rota.post('/', async (req, res) => {
