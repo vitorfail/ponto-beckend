@@ -3,6 +3,8 @@ const check = require('./checkUser');
 const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
+const Sequelize = require('sequelize');
+const { Op } = Sequelize;
 /**
  * GET product list.
  *
@@ -27,7 +29,8 @@ async function puxar(id_empresa, ids){
                 id: {
                   [Op.notIn]: ids,
                 }
-              }
+              },
+              attributes:["id", "user", "face"]
             });
             return {status:"ok", dados:pesquisa}
           }
