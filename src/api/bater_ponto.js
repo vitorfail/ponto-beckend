@@ -4,7 +4,6 @@ const RegistroPonto = require("../registro")
 const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
-const sequelize = require("sequelize")
 /**
  * GET product list.
  *
