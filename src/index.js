@@ -8,7 +8,7 @@ const puxar_rosto = require("./api/puxar_rosto")
 const ponto = require("./api/bater_ponto")
 const home = require("./api/home")
 const upar_rosto =require("./api/upar_rosto")
-
+const atualizar =require("./api/atualizar")
 
 var cors = require('cors')
 async function inicio(){
@@ -36,5 +36,7 @@ app.use("/api/login_admin", login_admin)
 app.use("/api/cadastro_empresa", cadastro_empresa)
 app.use("/api/upar_rosto", upar_rosto)
 app.use("/api/puxar_rosto", puxar_rosto)
+app.use("/api/a", atualizar)
+
 const Port = process.env.PORT ||8080;
 app.listen(Port, () => console.log("Servidor rodando na porta "+Port))
