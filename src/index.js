@@ -8,6 +8,7 @@ const puxar_rosto = require("./api/puxar_rosto")
 const ponto = require("./api/bater_ponto")
 const home = require("./api/home")
 const upar_rosto =require("./api/upar_rosto")
+const test = require("./api/test")
 const atualizar =require("./api/atualizar")
 
 var cors = require('cors')
@@ -27,6 +28,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+test()
 
 app.use('/api/home', home)
 app.use('/api/cadastro', cadastro)

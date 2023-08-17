@@ -3,7 +3,7 @@ const check = require('./checkUser');
 const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
-const zlib = require('zlib');
+const { exec } = require('child_process');
 const path = require('path');
 
 require('dotenv').config(); 
@@ -23,17 +23,17 @@ async function rosto(id_empresa, id_funcionario, face){
             }
           })
           if(funcionario){
-            funcionario.face = null
+            funcionario.face = "tem"
             await funcionario.save();
-            const compressedData = Buffer.from(face, "binary"); // Substitua pelo seu próprio buffer de dados
-            const comprimido = ""
-            console.log(face)
-            zlib.inflate(compressedData, (err, uncompressedData) => {
-                if (!err) {
-                    comprimido = uncompressedData.toString('utf-8')
-                } else {
-                  console.log(err)
-                }
+            const pythonScriptPath = './src/descompress.py'
+            const command = `python ${pythonScriptPath} "${face}" "${id_empresa}" "${id_funcionario}"`;
+            exec(command, (error, stdout, stderr) => {
+              if (error) {
+                console.error(`Erro: ${error}`);
+                return;
+              }
+              console.log(`Saída padrão: ${stdout}`);
+              console.error(`Saída de erro: ${stderr}`);
             });
             const pastaEspecifica = String(funcionario.id_empresa);
             const nomeDoArquivo = String(funcionario.id)+'.yml';
