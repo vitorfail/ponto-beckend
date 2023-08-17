@@ -3,8 +3,9 @@ const check = require('./checkUser');
 const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
-const { exec } = require('child_process');
+var spawn = require("child_process").spawn;
 const path = require('path');
+const fs = require("fs")
 
 require('dotenv').config(); 
 
@@ -25,33 +26,14 @@ async function rosto(id_empresa, id_funcionario, face){
           if(funcionario){
             funcionario.face = "tem"
             await funcionario.save();
-            const pythonScriptPath = './src/descompress.py'
-            const command = `python ${pythonScriptPath} "${face}" "${id_empresa}" "${id_funcionario}"`;
-            exec(command, (error, stdout, stderr) => {
-              if (error) {
-                console.error(`Erro: ${error}`);
+            var file_name = String(id_empresa)+"\\"+String(id_funcionario)+'.txt'
+            fs.writeFile(file_name, face, (err) => {
+              if (err) {
+                console.error('Erro ao criar o arquivo:', err);
                 return;
               }
-              console.log(`Saída padrão: ${stdout}`);
-              console.error(`Saída de erro: ${stderr}`);
+              console.log('Arquivo criado com sucesso!');
             });
-            const pastaEspecifica = String(funcionario.id_empresa);
-            const nomeDoArquivo = String(funcionario.id)+'.yml';
-            const conteudoDoArquivo = comprimido;
-
-            const caminhoCompleto = path.join(__dirname, pastaEspecifica, nomeDoArquivo);
-
-            // Certificar-se de que a pasta exista
-            if (!fs.existsSync(pastaEspecifica)) {
-                fs.mkdirSync(pastaEspecifica);
-            }
-            // Escrever o conteúdo no arquivo
-            fs.writeFile(caminhoCompleto, conteudoDoArquivo, (err) => {
-                if (err) {
-                } else {
-                }
-            });
-            return {status:"ok"}  
           }
         } 
         catch (error) {
