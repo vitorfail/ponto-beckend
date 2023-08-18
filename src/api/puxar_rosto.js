@@ -5,6 +5,9 @@ const rota = express.Router()
 const jwt = require("jsonwebtoken")
 const Sequelize = require('sequelize');
 const { Op } = Sequelize;
+const fs = require('fs');
+const path = require('path');
+
 const zlib = require('zlib');
 
 /**
@@ -22,9 +25,19 @@ async function puxar(id_empresa, ids){
               },
               attributes:["id", "user", "face"]
             });
-            return {status:"ok", dados:pesquisa}  
+            const pasta = path.resolve(__dirname, '..', '..')+"\\"+String(id_empresa)
+            const listaDeConteudos = {}
+            const f = await fs.readdirSync(pasta);  
+            f.forEach(file => {
+              const filePath = path.join(pasta, file);
+              const conteudo = fs.readFileSync(filePath, 'utf-8');
+              listaDeConteudos[file.replace(".bin", "")] = conteudo
+            });
+            console.log(listaDeConteudos)
+            return {status:"ok", dados:pesquisa, face:listaDeConteudos}  
           }
           else{
+            console.log("passou aqui")
             const pesquisa = await Funcionario.findAll({
               where:{
                 id_empresa:(id_empresa),
@@ -34,7 +47,23 @@ async function puxar(id_empresa, ids){
               },
               attributes:["id", "user", "face"]
             });
-            return {status:"ok", dados:pesquisa}
+
+            const pasta = path.resolve(__dirname, '..', '..')+"\\"+String(id_empresa)
+            const listaDeConteudos = {}
+
+            fs.readdir(pasta+"\\"+String(id_empresa), (err, files) => {
+              if (err) {
+                console.error('Erro ao ler a pasta:', err);
+                return;
+              }
+            
+              files.forEach(file => {
+                const filePath = path.join(pasta, file);
+                const conteudo = fs.readFileSync(filePath);
+                listaDeConteudos[file.replace(".txt", "")] = conteudo
+              });           
+            });      
+            return {status:"ok", dados:pesquisa, face:listaDeConteudos}
           }
         } 
         catch (error) {

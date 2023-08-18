@@ -26,14 +26,14 @@ async function rosto(id_empresa, id_funcionario, face){
           if(funcionario){
             funcionario.face = "tem"
             await funcionario.save();
-            var file_name = String(id_empresa)+"\\"+String(id_funcionario)+'.txt'
-            fs.writeFile(file_name, face, (err) => {
+            var file_name = String(id_empresa)+"\\"+String(id_funcionario)+'.bin'
+            var criar = fs.writeFile(file_name, face, (err) => {
               if (err) {
-                console.error('Erro ao criar o arquivo:', err);
-                return;
+                return {status:"error"};
               }
-              console.log('Arquivo criado com sucesso!');
+              return {status:"ok"};
             });
+            return {status:"ok"}
           }
         } 
         catch (error) {
