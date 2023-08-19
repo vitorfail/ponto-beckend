@@ -1,6 +1,5 @@
 const Empresas = require('../empresas');
 const express = require("express")
-const fs = require('fs');
 const rota = express.Router()
 
 /**
@@ -23,13 +22,6 @@ async function cadastro_empresa( user, senha){
             const empresas = await Empresas.create({ user, senha});
 
 // Nome da pasta que você deseja criar
-            const nomeDaPasta = empresas.id;
-
-            // Verificar se a pasta já existe
-            if (!fs.existsSync(nomeDaPasta)) {
-                // Criar a pasta
-                fs.mkdirSync(String(nomeDaPasta));
-            }
             return {status:"ok", id:empresas.id}  
           }
         } 

@@ -9,17 +9,6 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 
-var caminho = ""
-// Configuração do Multer para lidar com o upload de arquivos
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, caminho); // Define o diretório onde os arquivos serão salvos
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // Usa o nome original do arquivo
-  }
-});
-const upload = multer({ storage: storage });
 
 async function puxar(id_empresa, ids){
         try {
@@ -30,17 +19,7 @@ async function puxar(id_empresa, ids){
               },
               attributes:["id", "user", "face"]
             });
-            const pasta = path.resolve(__dirname, '..', '..')+"\\"+String(id_empresa)
-            caminho = pasta
-            const listaDeConteudos = {}
-            const f = await fs.readdirSync(pasta);  
-            f.forEach(file => {
-              const filePath = path.join(pasta, file);
-              const conteudo = fs.readFileSync(filePath, 'utf8');
-              listaDeConteudos[file.replace(".txt", "")] =Buffer.from(conteudo, 'base64')
-            });
-            console.log(listaDeConteudos)
-            return {status:"ok", dados:pesquisa, face:listaDeConteudos}  
+            return {status:"ok", dados:pesquisa}  
           }
           else{
             const pesquisa = await Funcionario.findAll({
@@ -53,22 +32,7 @@ async function puxar(id_empresa, ids){
               attributes:["id", "user", "face"]
             });
 
-            const pasta = path.resolve(__dirname, '..', '..')+"\\"+String(id_empresa)
-            const listaDeConteudos = {}
-            console.log(pasta)
-            fs.readdir(pasta+"\\"+String(id_empresa), (err, files) => {
-              if (err) {
-                console.error('Erro ao ler a pasta:', err);
-                return;
-              }
-            
-              files.forEach(file => {
-                const filePath = path.join(pasta, file);
-                const conteudo = fs.readFileSync(filePath);
-                listaDeConteudos[file.replace(".txt", "")] = conteudo
-              });           
-            });      
-            return {status:"ok", dados:pesquisa, face:listaDeConteudos}
+            return {status:"ok", dados:pesquisa}
           }
         } 
         catch (error) {
@@ -94,5 +58,5 @@ rota.post('/',async (req, res) => {
     console.log(error)
     res.status(500).send({result:error})
   }
-},  upload.single('arquivo'));
+});
 module.exports = rota;
