@@ -24,15 +24,6 @@ async function rosto(id_empresa, id_funcionario, face){
             }
           })
           if(funcionario){
-            funcionario.face = "tem"
-            await funcionario.save();
-            var file_name = String(id_empresa)+"\\"+String(id_funcionario)+'.bin'
-            var criar = fs.writeFile(file_name, face, (err) => {
-              if (err) {
-                return {status:"error"};
-              }
-              return {status:"ok"};
-            });
             return {status:"ok"}
           }
         } 
