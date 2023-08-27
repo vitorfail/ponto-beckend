@@ -3,7 +3,7 @@ const check = require('./checkUser');
 const Funcionario = require("../funcionario")
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
-const sequelize = require("sequelize")
+const {sequelize,Op} = require("sequelize")
 /**
  * GET product list.
  *
@@ -20,7 +20,7 @@ async function home(id_empresa){
           const trabalhando = await Funcionario.count({
             where:{
               id_empresa:(id_empresa),
-              $or:[
+              [Op.or]:[
                 {status: 'horaEntrada'},
                 {status: "hora_entrada_almoco"}
               ]            
