@@ -21,7 +21,7 @@ async function home(id_empresa){
             where:{
               id_empresa:(id_empresa),
               $or:[
-                {status: "horaEntrada"},
+                {status: 'horaEntrada'},
                 {status: "hora_entrada_almoco"}
               ]            
             },
@@ -35,6 +35,7 @@ async function home(id_empresa){
           return {status:"ok", total: total,trabalhando:trabalhando, almoco:almoco}
         } 
         catch (error) {
+          console.log(error)
           return {status:"error"}
         }
 }
@@ -43,7 +44,8 @@ rota.post('/', async (req, res) => {
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      var result = await home(decode.payload.id)
+      console.log(decode)
+      var result = await home(decode.payload.id_empresa)
       res.status(200).send({result:result})
     }
     else{

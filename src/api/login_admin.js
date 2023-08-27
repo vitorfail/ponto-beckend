@@ -32,6 +32,7 @@ async function login_admin( user, senha, cod){
             return {status:"ok", token:token}
           }
           else{
+            console.log(funcionario)
             return {status:"ok", er:"SENHA"}
           }
         } 
