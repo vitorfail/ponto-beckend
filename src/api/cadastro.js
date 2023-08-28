@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken")
  * @return product list | empty.
  */
 // Exemplo de criação de um funcionário
-async function cadastro(id_empresa, user, email, senha, nivel){
+async function cadastro(id_empresa, user, nivel){
         try {
           const pesquisa = await Funcionario.findAll({
             where:{
@@ -24,7 +24,7 @@ async function cadastro(id_empresa, user, email, senha, nivel){
             return "JA_EXISTE"
           }
           else{
-            const funcionario = await Funcionario.create({id_empresa:id_empresa, user:user, email:email, senha:senha, nivel:nivel });
+            const funcionario = await Funcionario.create({id_empresa:id_empresa, user:user, nivel:nivel });
             var id = funcionario.id
             return {status:"ok", id:id}  
           }
@@ -39,7 +39,7 @@ rota.post('/', async (req, res) => {
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      var result = await cadastro(decode.payload.id, req.body.user, req.body.email, req.body.senha, req.body.nivel)
+      var result = await cadastro(decode.payload.id, req.body.user, req.body.nivel)
       res.status(200).send({result:result})
     }
     else{
