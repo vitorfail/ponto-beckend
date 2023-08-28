@@ -39,7 +39,8 @@ rota.post('/', async (req, res) => {
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      var result = await cadastro(decode.payload.id, req.body.user, req.body.nivel)
+      console.log(decode)
+      var result = await cadastro(decode.payload.id_empresa, req.body.user, req.body.nivel)
       res.status(200).send({result:result})
     }
     else{
