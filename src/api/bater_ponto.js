@@ -30,11 +30,11 @@ async function bater(id_empresa, id_funcionario){
                 var nome = variaveis[i] 
                 var json_atulizar_banco = {}
                 json_atulizar_banco[nome] = data_hoje.toISOString() 
-                await RegistroPonto.update(
+                const g = await RegistroPonto.update(
                   json_atulizar_banco,
                   {where:{id:id}},
                 )
-                await Funcionario.update(
+                const f = await Funcionario.update(
                   {status:(nome)},
                   {where:{
                     id_empresa:id_empresa,
