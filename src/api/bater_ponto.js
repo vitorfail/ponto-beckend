@@ -42,8 +42,14 @@ async function bater(id_empresa, id_funcionario){
                     id:id_funcionario
                   }}
                 )
+                if(i == 5){
+                  return {status:"ok", ponto:"Bom Almoço"}  
+                }
+                if(i == 6){
+                  return {status:"ok", ponto:"Bem vindo de volta"}  
+                }
                 if(i == 7){
-                  return {status:"ok", ponto:"saida"}  
+                  return {status:"ok", ponto:"Até amanhã!"}  
                 }
                 i= 9
               }
@@ -57,11 +63,18 @@ async function bater(id_empresa, id_funcionario){
           }
           else{
             const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString().slice(0, 10), horaEntrada:data.toISOString()});
-            return {status:"ok"}  
+              const f = await Funcionario.update(
+                {status:"horaEntrada"},
+                {where:{
+                  id_empresa:id_empresa,
+                  id:id_funcionario
+                }}
+              )
+
+            return {status:"ok", ponto:"Bem-vindo(a)"}  
           }
         } 
         catch (error) {
-          console.log(error)
           return {status:"error", er:error}
         }
 }
