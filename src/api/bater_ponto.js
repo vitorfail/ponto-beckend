@@ -29,7 +29,7 @@ async function bater(id_empresa, id_funcionario){
               if(v == null){
                 var nome = variaveis[i] 
                 var json_atulizar_banco = {}
-                json_atulizar_banco[nome] = data_hoje.toISOString() 
+                json_atulizar_banco[nome] = data_hoje
                 console.log(json_atulizar_banco)
                 await RegistroPonto.update(
                   json_atulizar_banco,
@@ -62,7 +62,7 @@ async function bater(id_empresa, id_funcionario){
             return {status:"ok"}  
           }
           else{
-            const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString().slice(0, 10), horaEntrada:data.toISOString()});
+            const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString().slice(0, 10), horaEntrada:data});
               const f = await Funcionario.update(
                 {status:"horaEntrada"},
                 {where:{
@@ -75,6 +75,7 @@ async function bater(id_empresa, id_funcionario){
           }
         } 
         catch (error) {
+          console.log(error)
           return {status:"error", er:error}
         }
 }
