@@ -29,7 +29,7 @@ async function banco(id_empresa, id_funcionario, mes, ano){
               sequelize.literal(pesquisa_mes+pesquisa_ano)
             ]}
           })
-          return pesquisa
+          return {status:"ok", horas:pesquisa}
         } 
         catch (error) {
           console.log(error)
