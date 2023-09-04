@@ -16,7 +16,6 @@ async function banco(id_empresa, id_funcionario, mes, ano){
         var pesquisa_ano = ano === "TODOS"? ' AND EXTRACT(\'Year\' FROM "RegistroPonto"."createdAt") > 0': ' AND EXTRACT(\'Year\' FROM "RegistroPonto"."createdAt") = '+ano
         var  pesquisa_mes  = mes === "TODOS"? 'EXTRACT(\'Month\' FROM "RegistroPonto"."createdAt") > 0': ' EXTRACT(\'Month\' FROM "RegistroPonto"."createdAt") = '+mes
         try {
-          console.log('passou')
 
           const pesquisa = await RegistroPonto.findAll({
             attributes: ["dataRegistro", 
@@ -32,7 +31,6 @@ async function banco(id_empresa, id_funcionario, mes, ano){
           return {status:"ok", horas:pesquisa}
         } 
         catch (error) {
-          console.log(error)
           return {status:"error", er:error}
         }
 }
@@ -42,7 +40,6 @@ rota.post('/', async (req, res) => {
     if(check(req)){
       var h = req.headers.authorization.replace('Bearer ', '')
       var decode = jwt.decode(h)
-      console.log(decode)
       var result = await banco(decode.payload.id_empresa, decode.payload.id_f, req.body.mes, req.body.ano)
       res.status(200).send({result:result})
     }
@@ -51,7 +48,6 @@ rota.post('/', async (req, res) => {
     }
   }
   catch(error){
-    console.log(error)
     res.status(500).send({result:error})
   }
 });
