@@ -3,7 +3,6 @@ const check = require('./checkUser');
 const RegistroPonto = require("../registro")
 const Funcionario = require("../funcionario")
 const rota = express.Router()
-const sequelize = require("sequelize")
 const jwt = require("jsonwebtoken")
 /**
  * GET product list.
@@ -14,8 +13,7 @@ const jwt = require("jsonwebtoken")
 async function bater(id_empresa, id_funcionario){
         try {
           var data = new Date()
-          const pesquisa = await RegistroPonto.findOne({
-            attributes:["id"],
+          const pesquisa = await RegistroPonto.findAll({
             where:{
               id_empresa:(id_empresa),
               id_funcionario:(id_funcionario),
@@ -32,20 +30,17 @@ async function bater(id_empresa, id_funcionario){
                 var nome = variaveis[i] 
                 var json_atulizar_banco = {}
                 json_atulizar_banco[nome] = data_hoje
-                await sequelize.Transaction(async (t) => {
-                  await RegistroPonto.update(
-                    json_atulizar_banco,
-                    {where:{id:id}},
-                  )
-                  const f = await Funcionario.update(
-                    {status:(nome)},
-                    {where:{
-                      id_empresa:id_empresa,
-                      id:id_funcionario
-                    }}
-                  )
-  
-                })
+                const v = await RegistroPonto.update(
+                  json_atulizar_banco,
+                  {where:{id:id}},
+                )
+                const f = await Funcionario.update(
+                  {status:(nome)},
+                  {where:{
+                    id_empresa:id_empresa,
+                    id:id_funcionario
+                  }}
+                )
                 if(i == 5){
                   return {status:"ok", ponto:"Bom Almoço"}  
                 }
@@ -66,16 +61,14 @@ async function bater(id_empresa, id_funcionario){
             return {status:"ok"}  
           }
           else{
-            await sequelize.Transaction(async (t) => {
-              const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString().slice(0, 10), horaEntrada:data});
-              const f = await Funcionario.update(
-                {status:"horaEntrada"},
-                {where:{
-                  id_empresa:id_empresa,
-                  id:id_funcionario
-                }}
-              )
-            })
+            const funcionario = await RegistroPonto.create({id_empresa:id_empresa, id_funcionario:id_funcionario,dataRegistro: data.toISOString().slice(0, 10), horaEntrada:data});
+            const f = await Funcionario.update(
+              {status:"horaEntrada"},
+              {where:{
+                id_empresa:id_empresa,
+                id:id_funcionario
+              }}
+            )
             return {status:"ok", ponto:"Bem-vindo(a)"}  
           }
         } 
