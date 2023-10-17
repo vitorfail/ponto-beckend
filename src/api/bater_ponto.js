@@ -2,6 +2,8 @@ const express = require("express");
 const check = require('./checkUser');
 const RegistroPonto = require("../registro")
 const Funcionario = require("../funcionario")
+const email =require('./email');
+
 const rota = express.Router()
 const jwt = require("jsonwebtoken")
 /**
@@ -42,6 +44,7 @@ async function bater(id_empresa, id_funcionario){
                   }}
                 )
                 if(i == 5){
+                  
                   return {status:"ok", ponto:"Bom Almoço"}  
                 }
                 if(i == 6){
@@ -77,6 +80,7 @@ async function bater(id_empresa, id_funcionario){
           return {status:"error", er:error}
         }
 }
+
 rota.post('/', async (req, res) => {
   
   try{

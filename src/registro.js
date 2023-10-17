@@ -11,6 +11,10 @@ const RegistroPonto = sequelize.define('RegistroPonto', {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    email:{
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     dataRegistro: {
       type: DataTypes.STRING,
       allowNull: false,

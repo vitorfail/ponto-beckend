@@ -1,6 +1,5 @@
 const Funcionario = require('../funcionario');
 const RegistroPonto = require('../registro');
-
 const express = require("express");
 const check = require('./checkUser');
 const rota = express.Router()
