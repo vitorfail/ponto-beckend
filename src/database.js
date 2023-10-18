@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 require("dotenv").config()
+require("pg")
 
 if(process.env.URL == ""){
     const sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
