@@ -3,7 +3,9 @@ const rota = express.Router()
 require('dotenv').config(); 
 
 const nodemailer = require('nodemailer');
-async function email(destino){
+async function email(destino, id){
+  console.log(destino)
+  var data = new Date()
     let transporter = nodemailer.createTransport({
       service: 'hotmail',
       auth: {
@@ -16,8 +18,8 @@ async function email(destino){
     let mailOptions = {
       from: "vitor_andrademanoel@hotmail.com",
       to: destino,
-      subject: 'Assunto do E-mail',
-      text: 'Conteúdo do E-mail'
+      subject: 'Ponto Eletrônico',
+      text: 'Data: '+data.getDate()+"/"+(data.getMonth()+1)+"/"+data.getFullYear()+"\nHoras: "+data.getHours()+":"+data.getMinutes()+"\nNSR: "+"0000000"+id
     };
     await transporter.verify(function(error, success) {
         if (error) {

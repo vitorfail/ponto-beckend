@@ -15,6 +15,14 @@ const jwt = require("jsonwebtoken")
 async function bater(id_empresa, id_funcionario){
         try {
           var data = new Date()
+          const func = await Funcionario.findAll(
+            {
+              where:{
+                id_empresa:(id_empresa),
+                id:(id_funcionario),
+            }
+          });
+          console.log(func[0].dataValues.email)
           const pesquisa = await RegistroPonto.findAll({
             where:{
               id_empresa:(id_empresa),
@@ -44,13 +52,15 @@ async function bater(id_empresa, id_funcionario){
                   }}
                 )
                 if(i == 5){
-                  
+                  await email(func[0].dataValues.email, func[0].dataValues.id)
                   return {status:"ok", ponto:"Bom Almoço"}  
                 }
                 if(i == 6){
+                  await email(func[0].dataValues.email, func[0].dataValues.id)
                   return {status:"ok", ponto:"Bem vindo de volta"}  
                 }
                 if(i == 7){
+                  await email(func[0].dataValues.email, func[0].dataValues.id)
                   return {status:"ok", ponto:"Até amanhã!"}  
                 }
                 i= 9
@@ -72,6 +82,7 @@ async function bater(id_empresa, id_funcionario){
                 id:id_funcionario
               }}
             )
+            await email(func[0].dataValues.email, func[0].dataValues.id)
             return {status:"ok", ponto:"Bem-vindo(a)"}  
           }
         } 
