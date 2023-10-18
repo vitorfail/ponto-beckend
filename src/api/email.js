@@ -36,15 +36,4 @@ async function email(destino, id){
       console.log('E-mail enviado: ' + info.response);
     });
   }
-  email({email:"vitorbrchunin@hotmail.com", senha:"Nanatsunota1"}, "vitor_andrademanoel@hotmail.com")
-  rota.post('/', async (req, res) => {
-    try{
-      var result = await email({email:"vitorbrchunin@hotmail.com", senha:"Nanatsunota1"}, "vitor_andrademanoel@hotmail.com")
-      res.status(200).send({result:result})  
-    }
-    catch(error){
-      res.status(500).send({result:error})
-    }
-  
-});
 module.exports = email;
