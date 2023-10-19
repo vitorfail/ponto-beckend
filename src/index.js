@@ -6,6 +6,7 @@ const login_admin = require("./api/login_admin")
 const login_empresa = require("./api/login_empresa")
 const ponto = require("./api/bater_ponto")
 const home = require("./api/home")
+const puxar = require("./api/puxar_rosto")
 const upar_rosto =require("./api/upar_rosto")
 const banco =require("./api/banco")
 
@@ -36,6 +37,7 @@ app.use("/api/login_admin", login_admin)
 app.use("/api/cadastro_empresa", cadastro_empresa)
 app.use("/api/upar_rosto", upar_rosto)
 app.use("/api/banco", banco)
+app.use("/api/puxar_rosto", puxar)
 
 const Port = process.env.PORT ||8080;
 app.listen(Port, () => console.log("Servidor rodando na porta "+Port))
