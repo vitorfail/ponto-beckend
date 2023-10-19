@@ -30,7 +30,7 @@ async function cadastro(id_empresa, user, email, nivel){
         } 
         catch (error) {
           console.log(error)
-          return {status:"error"}
+          return {status:"error", erro:error}
         }
 }
 rota.post('/', async (req, res) => {
